@@ -1,18 +1,19 @@
 import { useState, useRef, useEffect } from "react";
+import { useEditing } from "../hooks/editing";
 
 export const Editor = () => {
-  const [content, setContent] = useState("");
+  const { code, updateCode } = useEditing();
   const [lineCount, setLineCount] = useState(1);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   // Update line count when content changes
   useEffect(() => {
-    const lines = content.split("\n").length;
+    const lines = code.split("\n").length;
     setLineCount(lines);
-  }, [content]);
+  }, [code]);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setContent(e.target.value);
+    updateCode(e.target.value);
   };
 
   // Handle tab key to insert spaces instead of changing focus
@@ -26,8 +27,8 @@ export const Editor = () => {
       const end = textarea.selectionEnd;
 
       // Insert 2 spaces when tab is pressed
-      const newText = content.substring(0, start) + '  ' + content.substring(end);
-      setContent(newText);
+      const newText = code.substring(0, start) + '  ' + code.substring(end);
+      updateCode(newText);
 
       // Move cursor position
       setTimeout(() => {
@@ -50,7 +51,7 @@ export const Editor = () => {
       {/* Text editor */}
       <textarea
         ref={textareaRef}
-        value={content}
+        value={code}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
         className="flex-grow bg-white font-mono p-2 outline-none resize-none border-none leading-6"

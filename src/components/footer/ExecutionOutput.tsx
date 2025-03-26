@@ -1,17 +1,14 @@
-import { useState } from "react";
+import { useEditing } from "../../hooks/editing";
 
 const ExecutionOutput = () => {
-  const [output, setOutput] = useState<string[]>([
-    "Welcome to Highs Editor",
-    "Ready to execute your code"
-  ]);
+  const { output, clearOutput } = useEditing();
 
   return (
     <div className="border-t border-gray-300">
       <div className="bg-gray-100 px-3 py-1 font-semibold border-b border-gray-300 flex justify-between items-center">
         <span>Execution Output</span>
         <button
-          onClick={() => setOutput([])}
+          onClick={clearOutput}
           className="text-xs px-2 py-1 bg-white rounded border border-gray-300/70 hover:bg-gray-50"
         >
           Clear
