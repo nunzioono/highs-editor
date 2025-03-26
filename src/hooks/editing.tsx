@@ -86,9 +86,6 @@ export const EditingProvider: React.FC<{ children: React.ReactNode }> = ({ child
   };
 
   const updateCode = (newCode: string) => {
-    if (!editingState.openedFile) {
-      return;
-    }
 
     setEditingState({
       ...editingState,
