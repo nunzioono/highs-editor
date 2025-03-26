@@ -9,7 +9,7 @@ Highs Editor aims to provide developers with a fast, intuitive code editing expe
 - Real-time code editing with syntax highlighting
 - File management capabilities
 - Integrated output console for code execution
-- Cross-platform compatibility (Windows, macOS, Linux)
+- Cross-platform compatibility (Web, Windows, macOS, Linux)
 
 ## Development Setup
 
