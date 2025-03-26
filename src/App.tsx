@@ -1,50 +1,59 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import { invoke } from "@tauri-apps/api/core";
-import "./App.css";
+import { useState } from 'react';
+import './App.css';
+import { Editor } from './components/Editor';
+import { KeyboardProvider } from './hooks/keyboardEvents';
+import Header from './components/Header';
+import Footer from './components/Footer';
+
+// Define the type for our code execution state
+interface CodeExecutionState {
+  fileName: string;
+  openedFile: string | null;
+  code: string;
+  output: string;
+}
 
 function App() {
-  const [greetMsg, setGreetMsg] = useState("");
-  const [name, setName] = useState("");
+  // Initialize the global code execution state
+  const [executionState, setExecutionState] = useState<CodeExecutionState>({
+    fileName: '',
+    openedFile: null,
+    code: '',
+    output: ''
+  });
 
-  async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-    setGreetMsg(await invoke("greet", { name }));
-  }
+  // Function to update code when Ctrl+S is pressed in editor
+  const updateCode = (newCode: string) => {
+    if (executionState.openedFile) {
+      setExecutionState({
+        ...executionState,
+        code: newCode
+      });
+      console.log(`Code updated for file: ${executionState.openedFile}`);
+      // Here you could also save to a backend or perform other actions
+    }
+  };
+
+  // Function to open a file
+  const openFile = (fileName: string, fileContent: string) => {
+    setExecutionState({
+      ...executionState,
+      openedFile: fileName,
+      fileName: fileName,
+      code: fileContent
+    });
+  };
 
   return (
-    <main className="container">
-      <h1>Welcome to Tauri + React</h1>
+    <KeyboardProvider>
+      <div className="h-screen w-screen flex flex-col">
+        <Header/>
+        <Editor
 
-      <div className="row">
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo vite" alt="Vite logo" />
-        </a>
-        <a href="https://tauri.app" target="_blank">
-          <img src="/tauri.svg" className="logo tauri" alt="Tauri logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <p>Click on the Tauri, Vite, and React logos to learn more.</p>
-
-      <form
-        className="row"
-        onSubmit={(e) => {
-          e.preventDefault();
-          greet();
-        }}
-      >
-        <input
-          id="greet-input"
-          onChange={(e) => setName(e.currentTarget.value)}
-          placeholder="Enter a name..."
         />
-        <button type="submit">Greet</button>
-      </form>
-      <p>{greetMsg}</p>
-    </main>
+        <Footer/>
+      </div>
+    </KeyboardProvider>
   );
 }
 
