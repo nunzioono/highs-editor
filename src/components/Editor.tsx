@@ -1,8 +1,14 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react"; // Removed useCallback
 import { useEditing } from "../hooks/editing";
+import { useZoom } from "../hooks/zoom";
+
+// Define base font size (Tailwind's text-sm is 0.875rem) and line height (leading-6 is 1.5rem)
+const BASE_FONT_SIZE_REM = 0.875;
+const BASE_LINE_HEIGHT_REM = 1.5;
 
 export const Editor = () => {
   const { code, updateCode } = useEditing();
+  const { zoomLevel } = useZoom(); // Get zoom level
   const [lineCount, setLineCount] = useState(1);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -37,12 +43,23 @@ export const Editor = () => {
     }
   };
 
+  // Calculate dynamic font size and line height
+  const dynamicFontSize = `${BASE_FONT_SIZE_REM * zoomLevel}rem`;
+  const dynamicLineHeight = `${BASE_LINE_HEIGHT_REM * zoomLevel}rem`;
+  const dynamicStyle = {
+    fontSize: dynamicFontSize,
+    lineHeight: dynamicLineHeight,
+  };
+
   return (
     <div className="flex-grow flex">
       {/* Line numbers column */}
-      <div className="bg-gray-300 text-black font-mono p-2 text-right select-none w-12">
+      <div
+        className="bg-gray-300 text-black font-mono p-2 text-right select-none w-12"
+        style={dynamicStyle}
+      >
         {Array.from({ length: lineCount }, (_, i) => (
-          <div key={i + 1} className="leading-6">
+          <div key={i + 1}>
             {i + 1}
           </div>
         ))}
@@ -54,8 +71,8 @@ export const Editor = () => {
         value={code}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
-        // The resize-none class is already present here, disabling the default handle
-        className="flex-grow bg-white font-mono p-2 outline-none resize-none border-none leading-6"
+        className="flex-grow bg-white font-mono p-2 outline-none resize-none border-none"
+        style={dynamicStyle}
         spellCheck="false"
         placeholder="Start typing..."
       />
