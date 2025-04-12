@@ -54,6 +54,7 @@ export const Editor = () => {
         value={code}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
+        // The resize-none class is already present here, disabling the default handle
         className="flex-grow bg-white font-mono p-2 outline-none resize-none border-none leading-6"
         spellCheck="false"
         placeholder="Start typing..."
