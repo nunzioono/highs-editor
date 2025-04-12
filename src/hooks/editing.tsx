@@ -1,4 +1,5 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react"; // Import useEffect
+import { useAppVersion } from "./version";
 
 interface EditingState {
   openedFile: string | null;
@@ -23,15 +24,31 @@ interface EditingContextType {
 const EditingContext = createContext<EditingContextType | undefined>(undefined);
 
 export const EditingProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+
+  const version = useAppVersion();
+  // Initialize output state without the version initially
   const [editingState, setEditingState] = useState<EditingState>({
     openedFile: null,
     fileModified: false,
     code: '',
-    output: [
-      "Welcome to Highs Editor",
-      "Ready to execute your code"
-    ]
+    output: ["Ready to execute your code"] // Start with a default or empty state
   });
+
+  // Effect to set the initial output once the version is loaded
+  useEffect(() => {
+    // Check if version is loaded and if we haven't already set the welcome message
+    // or opened a file (to avoid overwriting existing output)
+    if (version && editingState.openedFile === null && editingState.output.length === 1 && editingState.output[0] === "Ready to execute your code") {
+      setEditingState(prevState => ({
+        ...prevState,
+        output: [
+          `Welcome to Highs Editor ${version}`,
+          "Ready to execute your code"
+        ]
+      }));
+    }
+    // Only run this effect when the version changes
+  }, [version]); // Dependency array includes version
 
   const openFile = (fileName: string, fileContent: string) => {
     if (editingState.openedFile) {
@@ -62,11 +79,15 @@ export const EditingProvider: React.FC<{ children: React.ReactNode }> = ({ child
     console.log("Closing file. Current state:", editingState);
 
     setEditingState(prevState => {
+      const initialOutput = version
+        ? [`Welcome to Highs Editor *${version}*`, "Ready to execute your code"]
+        : ["Ready to execute your code"]; // Recalculate initial text here too
       const newState = {
         ...prevState,
         openedFile: null,
         code: '',
-        fileModified: false
+        fileModified: false,
+        output: initialOutput // Reset output correctly
       };
 
       console.log("New state after closing file:", newState);

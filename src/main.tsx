@@ -8,14 +8,14 @@ import { EditingProvider } from "./hooks/editing";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <EditingProvider>
-      <HighsProvider>
-        <AppVersionProvider>
+    <AppVersionProvider>
+      <EditingProvider>
+        <HighsProvider>
           <KeyboardProvider>
             <App />
           </KeyboardProvider>
-        </AppVersionProvider>
-      </HighsProvider>
-    </EditingProvider>
+        </HighsProvider>
+      </EditingProvider>
+    </AppVersionProvider>
   </React.StrictMode>,
 );
