@@ -55,7 +55,6 @@ export const EditingProvider: React.FC<{ children: React.ReactNode }> = ({ child
       return;
     }
 
-    console.log("Opening file. Current state:", editingState);
 
     setEditingState(prevState => {
       const newState = {
@@ -65,22 +64,19 @@ export const EditingProvider: React.FC<{ children: React.ReactNode }> = ({ child
         fileModified: false
       };
 
-      console.log("New state after opening file:", newState);
       return newState;
     });
 
-    console.log("New state after opening file:", editingState);
   };
 
   const closeFile = () => {
     if (!editingState.openedFile) {
       return;
     }
-    console.log("Closing file. Current state:", editingState);
 
     setEditingState(prevState => {
       const initialOutput = version
-        ? [`Welcome to Highs Editor *${version}*`, "Ready to execute your code"]
+        ? [`Welcome to Highs Editor ${version}`, "Ready to execute your code"]
         : ["Ready to execute your code"]; // Recalculate initial text here too
       const newState = {
         ...prevState,
@@ -90,7 +86,6 @@ export const EditingProvider: React.FC<{ children: React.ReactNode }> = ({ child
         output: initialOutput // Reset output correctly
       };
 
-      console.log("New state after closing file:", newState);
       return newState;
     });
   };

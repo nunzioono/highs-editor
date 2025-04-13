@@ -12,7 +12,8 @@ export const AppVersionProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         const version = await invoke("get_app_version") as string;
         setAppVersion("v" + version);
       } catch (error) {
-        console.error("Error fetching app version:", error);
+        // console.error("Error fetching app version:", error);
+        setAppVersion("Web");
       }
     };
 
