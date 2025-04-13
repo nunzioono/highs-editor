@@ -1,13 +1,12 @@
 import { useState, useRef, useEffect } from "react";
 import { useEditing } from "../hooks/editing";
 import { useZoom } from "../hooks/zoom";
-import { ResultTable } from "./ResultTable";
 
 // Define base font size (Tailwind's text-sm is 0.875rem) and line height (leading-6 is 1.5rem)
 const BASE_FONT_SIZE_REM = 0.875;
 const BASE_LINE_HEIGHT_REM = 1.5;
 
-type Tab = 'code' | 'result'; // Define possible tab types
+type Tab = 'code'; // Define possible tab types
 
 export const Editor = () => {
   const { code, updateCode } = useEditing();
@@ -84,12 +83,6 @@ export const Editor = () => {
         >
           Code
         </button>
-        <button
-          className={getTabClass('result')}
-          onClick={() => setActiveTab('result')}
-        >
-          Result
-        </button>
       </div>
 
       {/* Content Area */}
@@ -120,11 +113,6 @@ export const Editor = () => {
               placeholder="Start typing..."
             />
           </>
-        )}
-        {activeTab === 'result' && (
-          <div className="flex-grow bg-white p-4 overflow-auto">
-            <ResultTable />
-          </div>
         )}
       </div>
     </div>

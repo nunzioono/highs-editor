@@ -8,7 +8,7 @@ interface EditingState {
   output: string[];
 }
 
-interface EditingContextType {
+export interface EditingContextType {
   openedFile: string | null;
   fileModified: boolean;
   code: string;

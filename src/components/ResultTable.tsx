@@ -67,7 +67,6 @@ export const ResultTable = () => {
         <table className="w-full border-collapse">
           <thead>
             <tr className="bg-gray-100">
-              <th className="border border-gray-300 px-4 py-2 text-left">Variable</th>
               {columns.map(column => (
                 <th key={column} className="border border-gray-300 px-4 py-2 text-left font-mono">
                   {column}
@@ -78,7 +77,6 @@ export const ResultTable = () => {
           <tbody>
             {variables.map(([name, value], index) => (
               <tr key={index} className="hover:bg-gray-50">
-                <td className="border border-gray-300 px-4 py-2 font-mono">{name}</td>
                 {columns.map(column => {
                   const cellValue = typeof value === 'object' && value !== null
                     ? column in value
@@ -88,7 +86,7 @@ export const ResultTable = () => {
                       ? name
                       : String(value);
 
-                  const isHighlightedColumn = column === 'Primal' || column === 'Type';
+                  const isHighlightedColumn = column === 'Primal' || column === 'Type' || column === 'Name';
                   return (
                     <td
                       key={column}

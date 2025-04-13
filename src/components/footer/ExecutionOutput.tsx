@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from "react";
-import { useEditing } from "../../hooks/editing";
+import { EditingContextType, useEditing } from "../../hooks/editing";
 import { useZoom } from "../../hooks/zoom";
+import { ResultTable } from "../ResultTable";
 
 // Define base font size (Tailwind's text-sm is 0.875rem)
 const BASE_FONT_SIZE_REM = 0.875;
@@ -12,7 +13,7 @@ const MAX_HEIGHT_VH = 80;
 const DEFAULT_HEIGHT_PX = 10 * 16; // 10rem (h-40)
 
 const ExecutionOutput = () => {
-  const { output, clearOutput } = useEditing();
+  const { clearOutput } = useEditing() as EditingContextType; // Get output and clearOutput function from editing context
   const { zoomLevel } = useZoom(); // Get zoom level
   const [height, setHeight] = useState(DEFAULT_HEIGHT_PX);
   const [isResizing, setIsResizing] = useState(false);
@@ -85,15 +86,7 @@ const ExecutionOutput = () => {
         className="bg-white p-3 overflow-y-auto font-mono text-sm flex-grow"
         style={dynamicStyle}
       >
-        {output.length > 0 ? (
-          output.map((line, index) => (
-            <div key={index}>
-              {line}
-            </div>
-          ))
-        ) : (
-          <div className="text-gray-400 italic">No output</div>
-        )}
+        <ResultTable />
       </div>
     </div>
   );

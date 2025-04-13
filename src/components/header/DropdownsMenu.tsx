@@ -51,7 +51,7 @@ const DropdownsMenu = ({ fileOperations }: DropdownsMenuProps) => {
           File
         </button>
         {isFileMenuOpen && (
-          <div className="absolute left-0 mt-0 w-40 bg-white border border-gray-300/70 z-10 shadow-md">
+          <div className="absolute left-0 mt-0 w-40 bg-white border border-gray-300/70 shadow-md z-100">
             <ul>
               <OpenButton setFile={setFile} disabled={!!openedFile} />
               <MenuButton action="Save" onClick={handleSave} disabled={!openedFile} />
@@ -70,7 +70,7 @@ const DropdownsMenu = ({ fileOperations }: DropdownsMenuProps) => {
           View
         </button>
         {isViewMenuOpen && (
-          <div className="absolute left-0 mt-0 w-40 bg-white border border-gray-300/70 z-10 shadow-md">
+          <div className="absolute left-0 mt-0 w-40 bg-white border border-gray-300/70 z-100 shadow-md">
             <ul>
               <MenuButton action="Zoom In" onClick={zoomIn} disabled={false} />
               <MenuButton action="Zoom Out" onClick={zoomOut} disabled={false} />
